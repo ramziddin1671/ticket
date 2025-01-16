@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+   {% if user.profile.role == 'it_specialist' %}
+    <h2>Yangi Murojaatlar</h2>
+    <ul>
+        {% for ticket in new_tickets %}
+            <li>
+                {{ ticket.title }} - {{ ticket.created_by }}
+                <a href="{% url 'assign_ticket' ticket.id %}">Qabul qilish</a>
+            </li>
+        {% empty %}
+            <li>Yangi murojaatlar mavjud emas.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Jarayonda</h2>
+    <ul>
+        {% for ticket in in_progress_tickets %}
+            <li>
+                {{ ticket.title }}
+                <a href="{% url 'complete_ticket' ticket.id %}">Bajarildi</a>
+            </li>
+        {% empty %}
+            <li>Jarayonda murojaatlar yo'q.</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h2>Mening Murojaatlarim</h2>
+    <ul>
+        {% for ticket in user_tickets %}
+            <li>
+                {{ ticket.title }} - {{ ticket.status }}
+                {% if ticket.status == 'closed' %}
+                    <a href="{% url 'rate_ticket' ticket.id %}">Baholash</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Hozircha murojaatlar yo'q.</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+</div>
+{% endblock %}

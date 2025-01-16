@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Mening murojaatlarim</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Sarlavha</th>
+            <th>Holat</th>
+            <th>Yaratilgan vaqt</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.status }}</td>
+            <td>{{ ticket.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Hozircha murojaat yo'q.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

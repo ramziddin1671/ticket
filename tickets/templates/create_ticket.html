@@ -1,0 +1,27 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <title>Murojaat Yuborish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+        <a href="{% url 'logout' %}">Logout</a>
+    <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6 animate__animated animate__fadeInDown">
+        <h2 class="text-2xl font-bold text-center mb-6">Murojaat Yuborish</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"
+                class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">
+                Yuborish
+            </button>
+        </form>
+    </div>
+</body>
+</html>

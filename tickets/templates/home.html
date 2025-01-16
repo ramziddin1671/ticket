@@ -1,0 +1,7 @@
+{% load static %}
+{% if user.is_authenticated %}
+    <a href="{% url 'submit_ticket' %}" class="btn btn-primary">Murojaat Yuborish</a>
+{% else %}
+    <a href="{% url 'signup' %}" class="btn btn-secondary">Ro'yxatdan O'tish</a>
+    <a href="{% url 'login' %}" class="btn btn-primary">Kirish</a>
+{% endif %}

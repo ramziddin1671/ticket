@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oddiy Xodim Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gray-800 p-4 text-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="font-bold text-xl">IT Support System</h1>
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'submit_ticket' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    Murojaat Yuborish
+                </a>
+                <span>Salom, {{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="text-red-500">Chiqish</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-8">
+        <h2 class="text-2xl font-bold mb-4">Mening Murojaatlarim</h2>
+        <div class="bg-white p-4 rounded shadow mb-4">
+            <!-- Ochiq murojaatlar -->
+            <h3 class="text-xl font-semibold mb-3">Baholash uchun Murojaatlar</h3>
+            {% for ticket in user_tickets %}
+                {% if not ticket.rating and ticket.status == 'closed' %}
+                    <div class="flex justify-between items-center mb-2">
+                        <span>{{ ticket.description }}</span>
+                        <a href="{% url 'rate_ticket' ticket.id %}" class="text-blue-500 hover:text-blue-700">
+                            Baholash
+                        </a>
+                    </div>
+                {% endif %}
+            {% empty %}
+                <p>Sizda baholanmagan yopiq murojaatlar mavjud emas.</p>
+            {% endfor %}
+        </div>
+
+        <div class="bg-white p-4 rounded shadow mb-4">
+            <h3 class="text-xl font-semibold mb-3">Barcha Murojaatlar</h3>
+            {% for ticket in user_tickets %}
+                <div class="border-b py-4">
+                    <p><strong>Murojaat:</strong> {{ ticket.description }}</p>
+                    <p><strong>Yuborilgan sana:</strong> {{ ticket.created_at|date:"d-m-Y H:i" }}</p>
+                    <p><strong>Holati:</strong> {{ ticket.get_status_display }}</p>
+                    {% if ticket.assigned_to %}
+                        <p><strong>Qabul qilgan IT mutaxassis:</strong> {{ ticket.assigned_to.username }}</p>
+                    {% endif %}
+                    {% if ticket.status == 'closed' %}
+                        <p><strong>Tugatilgan sana:</strong> {{ ticket.completed_at|date:"d-m-Y H:i" }}</p>
+                    {% else %}
+                        <p><strong>Tugatilgan sana:</strong> Mavjud emas</p>
+                    {% endif %}
+                    {% if ticket.file %}
+                        <p><a href="{{ ticket.file.url }}" class="text-blue-600" target="_blank">Faylni ko'rish</a></p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        © 2024 IT Support System. Barcha huquqlar himoyalangan.
+    </footer>
+</body>
+</html>

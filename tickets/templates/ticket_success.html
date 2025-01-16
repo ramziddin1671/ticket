@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Murojaat Yuborildi{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold text-green-600 mb-4">Murojaatingiz muvaffaqiyatli yuborildi!</h1>
+<p>IT mutaxassisi tez orada siz bilan bog'lanadi.</p>
+<a href="{% url 'submit_ticket' %}" class="text-blue-500 underline">Yangi murojaat yuborish</a>
+{% endblock %}

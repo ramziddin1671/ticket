@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murojaatni Baholash</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg px-8 py-6 w-full max-w-md">
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Murojaatni Baholash</h2>
+        <form method="post" {% if readonly %}class="hidden"{% endif %}>
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="rating" class="block text-gray-700 font-bold mb-2">Baholash (1-5):</label>
+                <select name="rating" id="rating" class="w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" {% if readonly %}disabled{% endif %}>
+                    <option value="5" {% if ticket.rating == 5 %}selected{% endif %}>5 - A'lo</option>
+                    <option value="4" {% if ticket.rating == 4 %}selected{% endif %}>4 - Yaxshi</option>
+                    <option value="3" {% if ticket.rating == 3 %}selected{% endif %}>3 - Qoniqarli</option>
+                    <option value="2" {% if ticket.rating == 2 %}selected{% endif %}>2 - Qoniqarsiz</option>
+                    <option value="1" {% if ticket.rating == 1 %}selected{% endif %}>1 - Yomon</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="feedback" class="block text-gray-700 font-bold mb-2">Fikr-mulohaza:</label>
+                <textarea name="feedback" id="feedback" rows="4" class="w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Fikringizni yozing..." {% if readonly %}disabled{% endif %}>{{ ticket.feedback }}</textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition-all duration-200 ease-in-out" {% if readonly %}disabled{% endif %}>
+                Baholashni Saqlash
+            </button>
+        </form>
+        {% if readonly %}
+        <div class="mt-6">
+            <h3 class="text-lg font-bold text-gray-800">Fikr-mulohaza:</h3>
+            <p class="text-gray-600 mt-2">{{ ticket.feedback|default:"Fikr-mulohaza mavjud emas." }}</p>
+            <h3 class="text-lg font-bold text-gray-800 mt-4">Baholash:</h3>
+            <p class="text-gray-600">{{ ticket.rating|default:"Baholash mavjud emas." }}</p>
+        </div>
+        {% endif %}
+        <div class="mt-6">
+            <a href="{% url 'dashboard' %}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full text-center block transition-all duration-200 ease-in-out">
+                Dashboardga Qaytish
+            </a>
+        </div>
+    </div>
+</body>
+</html>
